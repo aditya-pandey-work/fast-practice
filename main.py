@@ -6,10 +6,12 @@ from db import SessionLocal, my_engine
 from dependencies import get_db
 from model import User, Base
 from auth import hashing_password, verify_password, create_access_token
+import journal
 
 app = FastAPI()
 
 Base.metadata.create_all(bind = my_engine)
+app.include_router(journal.router, prefix="/api")
 
 # def load_data(file):
 #     return json.load(file)
@@ -37,7 +39,7 @@ def register(user: Register, db: Session = Depends(get_db)):
     return {"message": "registered"}
 
 @app.post("/login")
-def login(user: Register, db: Session = Depends(get_db)):
+def login_user(user: Register, db: Session = Depends(get_db)):
     db_user = db.query(User).filter(User.username == user.username).first()
 
     if not db_user or not verify_password(user.password, db_user.hash_password):
@@ -45,3 +47,7 @@ def login(user: Register, db: Session = Depends(get_db)):
     
     token = create_access_token({"sub": str(db_user.id)})
     return {"access token": token , "token_type": "bearer"}
+
+@app.get("/helo")
+def hello():
+    return {"message": "hello how are you!"}

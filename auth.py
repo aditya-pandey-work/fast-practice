@@ -6,7 +6,7 @@ SECRET_KEY = "thiskeyisprivatepleasedontreadit"
 ALGORITHM = 'HS256'
 ACCESS_TOKEN_EXPIRE = 30
 
-con = CryptContext(schemes=['bcrypt'], deprecated="auto")
+con = CryptContext(schemes=['bcrypt'])
 
 
 def hashing_password(password: str):
