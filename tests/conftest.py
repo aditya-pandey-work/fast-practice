@@ -19,7 +19,8 @@ from sqlalchemy.orm import sessionmaker
 
 #     app.dependency_overrides.clear()
 
-Database_test = "postgresql://postgres:password@localhost:5432/tests"
+# Database_test = "postgresql://postgres:password@localhost:5432/tests"
+Database_test = "sqlite:///./test.db"
 
 eng = create_engine(Database_test)
 
