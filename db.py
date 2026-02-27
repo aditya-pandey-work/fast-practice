@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 from sqlalchemy.orm import sessionmaker
 import os 
 
-load_dotenv()
+# load_dotenv()
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 
