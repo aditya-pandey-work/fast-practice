@@ -56,3 +56,23 @@ def sort(sort_by: str = Query(..., description="enter title here to sort accordi
     sort_db = db.query(JournalEntry).filter(current_user.id == JournalEntry.owner_id).order_by(column).all()
 
     return sort_db
+
+@router.get("/prac")
+def prac(title: str, order_by: str, db: Session = Depends(get_db), current_user = Depends(get_curr_user)):
+
+    col = getattr(JournalEntry, title)
+
+    if order_by == "desc":
+        col = desc(col)
+    else:
+        col = asc(col)
+    
+    db_sorts = db.query(JournalEntry).filter(JournalEntry.owner_id == current_user.id).order_by(col).all()
+
+    return db_sorts
+
+@router.get("/getpara/{id}", response_model=JournalCreate)
+def getpara(id: int, db: Session = Depends(get_db), curr_user = Depends(get_curr_user)):
+    db_user = db.query(JournalEntry).filter(JournalEntry.owner_id == curr_user.id, JournalEntry.id == id).first()
+
+    return db_user

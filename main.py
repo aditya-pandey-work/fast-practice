@@ -10,7 +10,8 @@ import journal
 
 app = FastAPI()
 
-Base.metadata.create_all(bind = my_engine)
+if __name__ == "__main__":
+    Base.metadata.create_all(bind = my_engine)
 app.include_router(journal.router, prefix="/api")
 
 # def load_data(file):
